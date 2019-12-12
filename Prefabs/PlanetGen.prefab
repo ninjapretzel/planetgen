@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3110039294748030421}
   - component: {fileID: 3110039294748030423}
+  - component: {fileID: 2902197528757660937}
   m_Layer: 0
   m_Name: PlanetGen
   m_TagString: Untagged
@@ -52,7 +53,8 @@ MonoBehaviour:
   minRadius: 0.3
   maxRadius: 0.9
   surface: 0.241
-  maxDist: 6
+  lodDist: 6
+  renderDist: 8
   cubeSize: 10
   maxLOD: 64
   seed: 15
@@ -113,3 +115,32 @@ MonoBehaviour:
     scale: 1
   objects: []
   tracked: {fileID: 0}
+--- !u!114 &2902197528757660937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3110039294748030422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5f8be39ab34d42499c18d22a6e173d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  group: Terrain
+  objects: []
+  repeating: {x: 3, y: 1, z: 3}
+  noiseOffset: {x: 0, y: 55, z: 0}
+  offset: 40
+  delayFill: 1
+  maxPerFrame: 1
+  lockY: 0
+  cullRadial: 0
+  destroyDistant: 0
+  noise:
+    octaves: 4
+    persistence: 0.5
+    scale: 1
+    octaveScale: 2
+    noiseOffset: {x: 0, y: 0, z: 0}
+  fillOnStart: 0

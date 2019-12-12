@@ -31,7 +31,9 @@ public class PlanetaryVoxelGenerator : MonoBehaviour {
 	public float surface = .5f;
 
 	[Tooltip("Maximum distance away from tracked point to use higher LOD than 4")]
-	public int maxDist = 6;
+	public int lodDist = 6;
+	[Tooltip("Max distance to render terrain")]
+	public int renderDist = 8;
 
 	[Tooltip("Size of a single cubical cell")]
 	public float cubeSize = 10.0f;
@@ -50,7 +52,7 @@ public class PlanetaryVoxelGenerator : MonoBehaviour {
 	public string chunkName = "Chunk3d";
 	public string densityKernelName = "Density";
 
-	[Tooltip("Fractional power falloff per cell away from tracked.\n1 = halve every cell away, \n.5 = halve every 2 cells away, etc.")]
+	[Tooltip("Fractional power falloff per cell away from tracked. ")]
 	public float lodFalloff = .5f;
 
 	public CraterData craterData = new CraterData() {
@@ -85,17 +87,20 @@ public class PlanetaryVoxelGenerator : MonoBehaviour {
 
 	void Start() {
 		objects = new Transform[1];
+
 		var chunkPrefab = SafeLoad<Transform>(chunkName, "Chunk3D");
 		objects[0] = Instantiate(chunkPrefab, Vector3.zero, Quaternion.identity);
-
-		// For now, just make one
+		objects[0].gameObject.SetActive(false);
+		
 		var mc3d = objects[0].GetComponent<MeshChunk3D>();
 		if (mc3d != null) {
 			mc3d.generator = this;
 		}
 
-		generator = transform.Require<SimplexGenerator>();
-		FillBuffers();
+		generator = GetComponent<SimplexGenerator>();
+		if (generator == null) { generator = gameObject.AddComponent<SimplexGenerator>(); }		
+
+		UpdateGenerator();
 
 	}
 	void OnValidate() {
@@ -110,25 +115,47 @@ public class PlanetaryVoxelGenerator : MonoBehaviour {
 			}
 		}
 
-		if (settingsUpdated) {
-			RequestMeshUpdate();
-			settingsUpdated = false;
+		if (autoRegen) {
+			autoRegenTimeout += Time.deltaTime;
+			if (autoRegenTimeout >= autoRegenTime) {
+				regen = true;
+				autoRegenTimeout = 0f;
+			}
+			if (next) { seed++; prev = false; }
+			if (prev) { seed--; next = false; }
+		} else {
+			if (next) {
+				regen = true;
+				seed++;
+				prev = next = false;
+			}
+			if (prev) {
+				regen = true;
+				seed--;
+				prev = next = false;
+			}
+		}
+		if (regen) {
+			regen = false;
+			UpdateGenerator();
+			generator.Clear();
+		}
+
+		if (dumpJson) {
+			dumpJson = false;
+			// Debug.Log(DumpJson());
 		}
 
 	}
+	
+	void UpdateGenerator(){
 
-	void RequestMeshUpdate() {
-		FillBuffers();
-		foreach (var o in objects) {
-			var mc3d = o.GetComponent<MeshChunk3D>();
-			mc3d.generator = this;
-			mc3d.Regen();
-		}
-	}
-
-	void FillBuffers(){
-
-
+		generator.noise = densityNoise;
+		generator.repeating = Vector3.one * renderDist;
+		generator.objects = objects;
+		generator.offset = cubeSize*2;
+		generator.lockY = false;
+		
 		UnityEngine.Random.InitState(unchecked((int)seed));
 		Buffer("Perms", SimplexNoise.stdPerm);
 
@@ -207,7 +234,7 @@ public class PlanetaryVoxelGenerator : MonoBehaviour {
 
 	}
 
-	public List<Mesh> ProcessMesh(Vector3 center, Vector3 extents) {
+	public List<Mesh> ProcessMesh(Vector3 center, Vector3 extents, int lod) {
 		uint w, h, d;
 
 		Vector3 start = center - extents;
@@ -221,7 +248,7 @@ public class PlanetaryVoxelGenerator : MonoBehaviour {
 		PipeData(shader, densityKernel, "Noises");
 		PipeData(shader, densityKernel, "Ubers");
 		
-		int size = maxLOD;
+		int size = lod;
 		int n = size * size * size;
 		ComputeBuffer densities = Buffer("Densities", n, sizeof(float) * 4);
 		ComputeBuffer triangles = AppendBuffer<Triangle>("Triangles", n * 5);

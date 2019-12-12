@@ -33,7 +33,7 @@ public class SimplexGenerator : MonoBehaviour {
 	Vector3 lastRepeat;
 	Vector3 lastExtents;
 	float area;
-	float initialPosition;
+	float initialYPosition;
 	//public static TerrainGenerator main;
 	
 	void Awake() {
@@ -47,7 +47,7 @@ public class SimplexGenerator : MonoBehaviour {
 	
 	void Start() {
 
-		initialPosition = transform.position.y;
+		initialYPosition = transform.position.y;
 
 		if (fillOnStart) {
 			Fill(transform.position, repeating);
@@ -96,12 +96,16 @@ public class SimplexGenerator : MonoBehaviour {
 
 		Transform t;
 		int created = 0;
-		List<Vector3> vs = new List<Vector3>((int)(repeat.x * repeat.z));
+		List<Vector3> vs = new List<Vector3>((int)(repeat.x * repeat.y * repeat.z));
 		for (int xx = 0; xx < repeat.x; xx++) {
 			pos.x = Mathf.Floor(start.x + offset * xx);
-			for (int zz = 0; zz < repeat.z; zz++) {
-				pos.z = Mathf.Floor(start.z + offset * zz);
-				vs.Add(pos);
+			if (lockY) { repeat.y = 1; }
+			for (int yy = 0; yy < repeat.y; yy++) {
+				pos.y = Mathf.Floor(start.y + offset * yy);
+				for (int zz = 0; zz < repeat.z; zz++) {
+					pos.z = Mathf.Floor(start.z + offset * zz);
+					vs.Add(pos);
+				}
 			}
 		}
 		vs.Sort((a,b) => { 
@@ -159,22 +163,27 @@ public class SimplexGenerator : MonoBehaviour {
 		Transform t;
 		for (int xx = 0; xx < repeat.x; xx++) {
 			pos.x = Mathf.Floor(start.x + offset * xx);
-			for (int zz = 0; zz < repeat.z; zz++) {
-				pos.z = Mathf.Floor(start.z + offset * zz);
+			if (lockY) { repeat.y = 1; }
+			for (int yy = 0; yy < repeat.y; yy++) {
+				pos.y = Mathf.Floor(start.y + offset * yy);
+
+				for (int zz = 0; zz < repeat.z; zz++) {
+					pos.z = Mathf.Floor(start.z + offset * zz);
 				
 
-				if (ShouldBeCulled(pos)) {
-					continue; 
-				} else if (map.ContainsKey(pos)) {
-					t = map[pos];
-					if (!t.gameObject.activeSelf) { t.gameObject.SetActive(true); }
-				} else {
-					t = Instantiate(Choose(pos), pos, Quaternion.identity) as Transform;
-					t.parent = objectsDump;
-					t.gameObject.SetActive(true);
-					map.Add(pos, t);
-				}
+					if (ShouldBeCulled(pos)) {
+						continue; 
+					} else if (map.ContainsKey(pos)) {
+						t = map[pos];
+						if (!t.gameObject.activeSelf) { t.gameObject.SetActive(true); }
+					} else {
+						t = Instantiate(Choose(pos), pos, Quaternion.identity) as Transform;
+						t.parent = objectsDump;
+						t.gameObject.SetActive(true);
+						map.Add(pos, t);
+					}
 				
+				}
 			}
 			
 		}
@@ -187,7 +196,7 @@ public class SimplexGenerator : MonoBehaviour {
 		
 		pos.x = Mathf.Round(pos.x / offset) * offset;
 		if (!lockY) { pos.y = Mathf.Round(pos.y / offset) * offset; }
-		else { pos.y = initialPosition; }
+		else { pos.y = initialYPosition; }
 		pos.z = Mathf.Round(pos.z / offset) * offset;
 		
 		transform.position = pos;

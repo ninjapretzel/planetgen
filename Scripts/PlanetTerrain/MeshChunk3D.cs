@@ -6,17 +6,45 @@ using System.Collections.Generic;
 [ExecuteInEditMode]
 public class MeshChunk3D : MonoBehaviour {
 
-	Vector3 center { get { return new Vector3(transform.position.x, transform.position.y, transform.position.z); } }
+	Vector3 center { get { return transform.position; } }
 	public Vector3 extents = Vector3.one;
-
+	
 	public PlanetaryVoxelGenerator generator;
 	public List<GameObject> children;
+	public int lod = 64;
+	public int lastLod = -1;
 
 	void Start() {
 
+	}
+
+	void Update() {
+
 		if (generator != null) {
-			Regen();
+
+			lod = generator.maxLOD;
+			float distance = (transform.position - generator.tracked.position).magnitude;
+			if (distance > generator.lodDist) {
+				lod = 0;
+			} else {
+				float falloffAmount = distance * generator.lodFalloff / (generator.cubeSize * 2);
+				int halves = (int)falloffAmount;
+				if (halves < 0) { halves = 0; }
+				lod = lod >> halves;
+
+			}
+			if (lod < 4) { lod = 4; }
+
+			extents = Vector3.one * generator.cubeSize;
+
+			if (lod != lastLod) {
+				Regen();
+			}
+			lastLod = lod;
+
 		}
+
+		
 
 	}
 
@@ -25,7 +53,7 @@ public class MeshChunk3D : MonoBehaviour {
 			children = new List<GameObject>();
 		}
 
-		var meshes = generator.ProcessMesh(center, extents);
+		var meshes = generator.ProcessMesh(center, extents, lod);
 		var mat = GetComponent<MeshRenderer>().sharedMaterial;
 
 		int max = Mathf.Max(meshes.Count, children.Count);

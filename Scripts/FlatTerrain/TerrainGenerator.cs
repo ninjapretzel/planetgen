@@ -128,8 +128,8 @@ public class TerrainGenerator : MonoBehaviour {
 		}
 
 
-		generator = transform.Require<SimplexGenerator>();
-
+		generator = GetComponent<SimplexGenerator>();
+		if (generator == null) { generator = gameObject.AddComponent<SimplexGenerator>(); }
 
 		//objectNoise.perms = SimplexNoise.NewPermutation(objectSeed);
 		//heightmapNoise.perms = SimplexNoise.NewPermutation(heightmapSeed);
