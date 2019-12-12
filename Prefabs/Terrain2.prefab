@@ -1,0 +1,415 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4253823596255579082
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4253823596255579079}
+  - component: {fileID: 4253823596255579080}
+  m_Layer: 0
+  m_Name: Terrain2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4253823596255579079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4253823596255579082}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4253823596255579080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4253823596255579082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac6626d5d04d6ae4b8253d16c615396b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regen: 0
+  autoRegen: 0
+  next: 0
+  prev: 0
+  dumpJson: 0
+  autoRegenTime: 5
+  tileSize: {x: 100, y: 400, z: 100}
+  viewDist: 14
+  chunk: TerrainChunk
+  objects:
+  - {fileID: 8704947772572581082, guid: 4a85acaaf1612d24aae2a99702b6183b, type: 3}
+  shader: {fileID: 7200000, guid: 2ebaeba22aecd4d43bb6a75c595d8cb0, type: 3}
+  heightmapKernelName: Heightmap
+  splatmapKernelName: Splatmap
+  terrainLayers:
+  - {fileID: 8574412962073106934, guid: d4001a12c9e9e334c99e93b13739b11f, type: 2}
+  - {fileID: 8574412962073106934, guid: 922736da17ef9f140b2376ae359d6356, type: 2}
+  - {fileID: 8574412962073106934, guid: c53db3f918b828c4cb4f7dedd5772104, type: 2}
+  - {fileID: 8574412962073106934, guid: 771cfe60f55f9454ab30e26d69d32e1e, type: 2}
+  - {fileID: 8574412962073106934, guid: 281d5a8da94845c47b186337bbba13b3, type: 2}
+  meshSamples: 32
+  splatSamples: 32
+  slopeAngle: 55
+  seed: 2930
+  noises:
+  - octaves: 6
+    persistence: 1
+    scale: 0.0006
+    octaveScale: 2
+    noiseOffset: {x: 24.4, y: 2, z: 1}
+  - octaves: 4
+    persistence: 1
+    scale: 0.0015
+    octaveScale: 2
+    noiseOffset: {x: 155, y: 141.98, z: 149}
+  ubers:
+  - octaves: 4
+    perturb: 0.27
+    sharpness: 0.034
+    amplify: 0.208
+    altitudeErosion: 0.2122
+    ridgeErosion: 0.586
+    slopeErosion: 0.402
+    lacunarity: 2
+    gain: 0.5
+    startAmplitude: 0.3
+    scale: 0.01
+  - octaves: 2
+    perturb: -0.223
+    sharpness: -0.27
+    amplify: 0.343
+    altitudeErosion: 0.1882
+    ridgeErosion: 0.616
+    slopeErosion: 0.07
+    lacunarity: 2
+    gain: 0.5
+    startAmplitude: 3
+    scale: 0.001
+  - octaves: 4
+    perturb: -0.36877492
+    sharpness: -0.68984556
+    amplify: 0.95390236
+    altitudeErosion: 0.16227388
+    ridgeErosion: 0.5494365
+    slopeErosion: 0.47150558
+    lacunarity: 1.3658905
+    gain: 0.2372797
+    startAmplitude: 0.32680327
+    scale: 0.00020034827
+  - octaves: 4
+    perturb: 0.19518164
+    sharpness: -0.6954763
+    amplify: 0.48151284
+    altitudeErosion: 0.092625394
+    ridgeErosion: 0.32228607
+    slopeErosion: 0.541784
+    lacunarity: 1.6783301
+    gain: 0.84701115
+    startAmplitude: 0.13681853
+    scale: 0.00029306463
+  - octaves: 4
+    perturb: -0.08962911
+    sharpness: -0.80802083
+    amplify: 0.88357055
+    altitudeErosion: 0.09024061
+    ridgeErosion: 0.7867838
+    slopeErosion: 0.88802123
+    lacunarity: 1.2717949
+    gain: 1.6644557
+    startAmplitude: 0.06358358
+    scale: 0.00028835365
+  - octaves: 4
+    perturb: 0.33368376
+    sharpness: -0.04739654
+    amplify: 0.90195775
+    altitudeErosion: 0.045149565
+    ridgeErosion: 0.57413214
+    slopeErosion: 0.07203722
+    lacunarity: 1.5659498
+    gain: 1.8926668
+    startAmplitude: 0.4991969
+    scale: 0.00022594297
+  - octaves: 4
+    perturb: -0.045325816
+    sharpness: -0.116770625
+    amplify: 0.04832506
+    altitudeErosion: 0.028033942
+    ridgeErosion: 0.41050845
+    slopeErosion: 0.58355063
+    lacunarity: 1.2818041
+    gain: 0.72696495
+    startAmplitude: 0.2411226
+    scale: 0.00011314296
+  - octaves: 4
+    perturb: 0.2794322
+    sharpness: 0.11645973
+    amplify: 0.958179
+    altitudeErosion: 0.04648024
+    ridgeErosion: 0.71823037
+    slopeErosion: 0.31992668
+    lacunarity: 1.6759113
+    gain: 1.3242124
+    startAmplitude: 0.31049576
+    scale: 0.00024609186
+  - octaves: 4
+    perturb: 0.30507135
+    sharpness: 0.7460904
+    amplify: 0.2885682
+    altitudeErosion: 0.12859364
+    ridgeErosion: 0.6270293
+    slopeErosion: 0.9566009
+    lacunarity: 1.3847605
+    gain: 0.955078
+    startAmplitude: 0.09754657
+    scale: 0.00026396912
+  - octaves: 4
+    perturb: -0.345948
+    sharpness: -0.3344437
+    amplify: 0.33522302
+    altitudeErosion: 0.18748447
+    ridgeErosion: 0.5284681
+    slopeErosion: 0.19583714
+    lacunarity: 1.2766106
+    gain: 1.8848675
+    startAmplitude: 0.16966543
+    scale: 0.000256586
+  - octaves: 4
+    perturb: 0.00971359
+    sharpness: -0.28614938
+    amplify: 0.9735762
+    altitudeErosion: 0.12934424
+    ridgeErosion: 0.5694471
+    slopeErosion: 0.5605697
+    lacunarity: 1.474488
+    gain: 1.3823259
+    startAmplitude: 0.377743
+    scale: 0.00025841876
+  - octaves: 4
+    perturb: -0.3392115
+    sharpness: -0.752213
+    amplify: 0.76449203
+    altitudeErosion: 0.24468365
+    ridgeErosion: 0.4808783
+    slopeErosion: 0.16360831
+    lacunarity: 1.2874719
+    gain: 1.5574396
+    startAmplitude: 0.21334925
+    scale: 0.00014078151
+  - octaves: 4
+    perturb: 0.20664003
+    sharpness: -0.29425538
+    amplify: 0.66526663
+    altitudeErosion: 0.22239345
+    ridgeErosion: 0.8366293
+    slopeErosion: 0.7782204
+    lacunarity: 1.1347444
+    gain: 1.167466
+    startAmplitude: 0.09521393
+    scale: 0.00016655057
+  - octaves: 4
+    perturb: 0.33900985
+    sharpness: -0.8795023
+    amplify: 0.5744148
+    altitudeErosion: 0.15282466
+    ridgeErosion: 0.4111696
+    slopeErosion: 0.4442882
+    lacunarity: 1.4274399
+    gain: 1.4521904
+    startAmplitude: 0.47216508
+    scale: 0.0002848211
+  - octaves: 4
+    perturb: 0.08545032
+    sharpness: -0.34676087
+    amplify: 0.8942652
+    altitudeErosion: 0.018014729
+    ridgeErosion: 0.16387784
+    slopeErosion: 0.47842163
+    lacunarity: 1.2999961
+    gain: 0.7911646
+    startAmplitude: 0.43757164
+    scale: 0.00012586724
+  - octaves: 4
+    perturb: -0.10429044
+    sharpness: 0.12700522
+    amplify: 0.24201858
+    altitudeErosion: 0.03546053
+    ridgeErosion: 0.8385273
+    slopeErosion: 0.5734363
+    lacunarity: 1.6175357
+    gain: 0.70619345
+    startAmplitude: 0.07734938
+    scale: 0.00026390183
+  - octaves: 4
+    perturb: -0.27170554
+    sharpness: -0.5482249
+    amplify: 0.017787218
+    altitudeErosion: 0.121205464
+    ridgeErosion: 0.68469954
+    slopeErosion: 0.6367223
+    lacunarity: 1.651493
+    gain: 0.9570609
+    startAmplitude: 0.31350562
+    scale: 0.00028500642
+  - octaves: 4
+    perturb: 0.27796802
+    sharpness: -0.39360583
+    amplify: 0.2800812
+    altitudeErosion: 0.13861386
+    ridgeErosion: 0.5597947
+    slopeErosion: 0.4796614
+    lacunarity: 1.5093627
+    gain: 1.4321858
+    startAmplitude: 0.025723781
+    scale: 0.00021364748
+  - octaves: 4
+    perturb: -0.08275953
+    sharpness: -0.6722727
+    amplify: 0.91949797
+    altitudeErosion: 0.18006465
+    ridgeErosion: 0.29392093
+    slopeErosion: 0.20916617
+    lacunarity: 1.3079003
+    gain: 1.6312332
+    startAmplitude: 0.19382398
+    scale: 0.00013479221
+  - octaves: 4
+    perturb: -0.200552
+    sharpness: 0.65629673
+    amplify: 0.9693508
+    altitudeErosion: 0.20455363
+    ridgeErosion: 0.29012388
+    slopeErosion: 0.69729805
+    lacunarity: 1.2212679
+    gain: 0.4218157
+    startAmplitude: 0.42885748
+    scale: 0.00014774091
+  - octaves: 4
+    perturb: 0.3382747
+    sharpness: 0.4168124
+    amplify: 0.4060288
+    altitudeErosion: 0.08104549
+    ridgeErosion: 0.09095335
+    slopeErosion: 0.79908216
+    lacunarity: 1.4809569
+    gain: 1.8130578
+    startAmplitude: 0.105197504
+    scale: 0.00022449452
+  - octaves: 4
+    perturb: -0.01849857
+    sharpness: -0.94614005
+    amplify: 0.12770176
+    altitudeErosion: 0.008191526
+    ridgeErosion: 0.54394716
+    slopeErosion: 0.76793814
+    lacunarity: 1.5593923
+    gain: 0.8585833
+    startAmplitude: 0.05733479
+    scale: 0.00024919357
+  craterData:
+    craterEffect: 0.03
+    craterPoint: -58.66
+    warpAmount: 155
+    noise:
+      octaves: 1
+      persistence: 1
+      scale: 0.003
+      octaveScale: 1.2
+      noiseOffset: {x: 111, y: 136.05, z: 149}
+    comp: {x: 1, y: 0, z: 0, w: 1}
+    craterMin: 0.11
+    craterMax: 0.44
+    craterLip: 0.77
+  objectNoise:
+    octaves: 4
+    persistence: 0.5
+    scale: 0.07
+    octaveScale: 1.6
+    noiseOffset: {x: 155, y: 137, z: 149}
+  heightmapNoise:
+    octaves: 6
+    persistence: 1
+    scale: 0.0006
+    octaveScale: 2
+    noiseOffset: {x: 24.4, y: 2, z: 1}
+  splatmapNoise:
+    octaves: 4
+    persistence: 1
+    scale: 0.0015
+    octaveScale: 2
+    noiseOffset: {x: 155, y: 141.98, z: 149}
+  objectUberNoise:
+    octaves: 2
+    perturb: 0
+    sharpness: 0
+    amplify: 0
+    altitudeErosion: 0
+    ridgeErosion: 0
+    slopeErosion: 0
+    lacunarity: 2
+    gain: 0.5
+    startAmplitude: 0.9
+    scale: 1
+  heightmapUberNoise:
+    octaves: 4
+    perturb: 0.27
+    sharpness: 0.034
+    amplify: 0.208
+    altitudeErosion: 0.2122
+    ridgeErosion: 0.586
+    slopeErosion: 0.402
+    lacunarity: 2
+    gain: 0.5
+    startAmplitude: 0.3
+    scale: 0.0005
+  splatmapUberNoise:
+    octaves: 2
+    perturb: -0.223
+    sharpness: -0.27
+    amplify: 0.343
+    altitudeErosion: 0.1882
+    ridgeErosion: 0.616
+    slopeErosion: 0.07
+    lacunarity: 2
+    gain: 0.5
+    startAmplitude: 3
+    scale: 0.001
+  minUber:
+    octaves: 4
+    perturb: -0.4
+    sharpness: -1
+    amplify: 0
+    altitudeErosion: 0
+    ridgeErosion: 0
+    slopeErosion: 0
+    lacunarity: 1.1
+    gain: 0.2
+    startAmplitude: 0.01
+    scale: 0.0001
+  maxUber:
+    octaves: 4
+    perturb: 0.4
+    sharpness: 1
+    amplify: 1
+    altitudeErosion: 0.25
+    ridgeErosion: 1
+    slopeErosion: 1
+    lacunarity: 1.7
+    gain: 2
+    startAmplitude: 0.5
+    scale: 0.0003

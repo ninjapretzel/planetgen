@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3110039294748030422
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3110039294748030421}
+  - component: {fileID: 3110039294748030423}
+  m_Layer: 0
+  m_Name: PlanetGen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3110039294748030421
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3110039294748030422}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3110039294748030423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3110039294748030422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d84a44d6eef86c43902698503c656a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regen: 0
+  autoRegen: 0
+  next: 0
+  prev: 0
+  dumpJson: 0
+  autoRegenTime: 1
+  minRadius: 0.3
+  maxRadius: 0.9
+  surface: 0.241
+  maxDist: 6
+  cubeSize: 10
+  maxLOD: 64
+  seed: 15
+  noises:
+  - octaves: 5
+    persistence: 0.85
+    scale: 1
+    octaveScale: 1.4
+    noiseOffset: {x: 155, y: 137, z: 149}
+  ubers:
+  - octaves: 3
+    perturb: 1.98
+    sharpness: 0.66
+    amplify: -0.12
+    altitudeErosion: 0.84
+    ridgeErosion: 0.36
+    slopeErosion: 0.32
+    lacunarity: 1.8
+    gain: 1.21
+    startAmplitude: 1.17
+    scale: 1
+  shader: {fileID: 7200000, guid: e345d1c9b12fe344d8d443a0fd74395f, type: 3}
+  marchingCubes: {fileID: 7200000, guid: fe7853ce7b13c394c90c57acc9d53726, type: 3}
+  chunkName: Chunk3D
+  densityKernelName: Density
+  lodFalloff: 0.5
+  craterData:
+    craterEffect: 1
+    craterPoint: 1
+    warpAmount: 1
+    noise:
+      octaves: 3
+      persistence: -0.27
+      scale: -0.25
+      octaveScale: 1.65
+      noiseOffset: {x: 155.08, y: 137, z: 149}
+    comp: {x: 1, y: 0, z: 0, w: 1}
+    craterMin: 9.2
+    craterMax: 0.38
+    craterLip: 0.86
+  densityNoise:
+    octaves: 5
+    persistence: 0.85
+    scale: 1
+    octaveScale: 1.4
+    noiseOffset: {x: 155, y: 137, z: 149}
+  densityUberNoise:
+    octaves: 3
+    perturb: 1.98
+    sharpness: 0.66
+    amplify: -0.12
+    altitudeErosion: 0.84
+    ridgeErosion: 0.36
+    slopeErosion: 0.32
+    lacunarity: 1.8
+    gain: 1.21
+    startAmplitude: 1.17
+    scale: 1
+  objects: []
+  tracked: {fileID: 0}

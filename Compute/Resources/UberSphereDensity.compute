@@ -1,0 +1,71 @@
+#pragma kernel Density
+
+#include "../inc/shared.cginc"
+#include "../inc/permutation.cginc"
+#include "../inc/hashPrimitives.cginc"
+#include "../inc/simplex.cginc"
+#include "../inc/voroni.cginc"
+#include "../inc/uber.cginc"
+
+// Positions of noises to use in Noises buffer
+#define HEIGHT_NOISE 0
+#define SPLAT_NOISE 1
+// Other datas: 
+float warpAmt = 2.0;
+
+float craterPoint = .5;
+float craterEffect = .4;
+float craterMin = .15;
+float craterMax = .411;
+float craterLip = .62;
+
+float minRadius = 1000;
+float maxRadius = 1100;
+
+RWStructuredBuffer<float4> Densities;
+
+inline int index3d(int x, int y, int z) { return (z * size * size) + (y * size) + x; }
+[numthreads(1,1,1)]
+void Density(int3 id : SV_DispatchThreadID) {
+	if (id.x >= size || id.y >= size || id.z >= size) {
+		return;
+	}
+	const int index = index3d(id.x, id.y, id.z);
+	const float3 position = start + float3(id.x, id.y, id.z) * dist;
+	
+	const float gg = length(position);
+	// Clip any points within the planet's radius, they are always included.
+	if (gg < minRadius) { 
+		Densities[index] = float4(position, 1);
+		return;
+	}
+	// Clip any points outside of planet's max radius, they are never included.
+	if (gg > maxRadius) {
+		Densities[index] = float4(position, 0);
+		return;
+	}
+	// Bias towards including or excluding a point based on proportion through surface?
+	//const bias = (len - minRadius) / (minRadius - maxRadius);
+	//const bias2= bias*bias;
+	
+	//const float crater = craterSample(position);
+	NoiseData DATA = Noises[HEIGHT_NOISE]; // DefaultNoiseData();
+	
+	const float3 warped1 = Warp(DATA, position, warpAmt,
+									float3(0, 0, 0),
+									float3(5.1, 1.1, 1.3),
+									float3(2.7, 3.5, 5.2));
+	const float3 warped2 = Warp(DATA, warped1, warpAmt, 
+									float3(1.7, 6.5, 9.2),
+									float3(8.3, 3.4, 2.8),
+									float3(1.2, 4.4, 3.4));
+	
+	UberData UDATA = Ubers[HEIGHT_NOISE];
+	const float noise = abs( uberNoise(UDATA, warped2) );
+	// const float noise = abs( recursiveUber(UDATA.octaves, 3, 11, warped2) );
+	// const float noise = FBM3(DATA, warped2, 0, 1);
+	// const float effect = clamp(craterEffect, 0, 1);
+	// const float height = crater * effect + noise * (1.0 - effect);
+	
+	Densities[index] = float4(position, noise);
+}

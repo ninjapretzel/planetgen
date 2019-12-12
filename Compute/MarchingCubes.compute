@@ -1,0 +1,71 @@
+﻿// Roughly based off of Sebastian Lague's implementation: 
+// https://www.youtube.com/watch?v=M3iI2l0ltbE
+// https://github.com/SebLague/Marching-Cubes
+// Marching cubes is pretty standard. Cleaned up and compacted the code mostly.
+#pragma kernel MarchingCubes
+
+#include "./inc/Edges.cginc"
+struct Triangle { float3 a,b,c; };
+
+
+// Output: Triangle vertex array
+// (a0.xyz,b0.xyz,c0.xyz,a1.xyz,b1.xyz,c1.xyz,a2.xyz,b2.xyz,c2.xyz) etc....
+AppendStructuredBuffer<Triangle> Triangles;
+// Input: Densities. One per 
+RWStructuredBuffer<float4> Densities;
+
+// Surface density parameter (eg [0, 1])
+float surface;
+
+// Used to locate samples in region by ID.
+int size;
+
+inline int index3d(int x, int y, int z) { return (z * size * size) + (y * size) + x; }
+
+[numthreads(1,1,1)]
+void MarchingCubes(int3 id : SV_DispatchThreadID) {
+	if (id.x >= size-1 || id.y >= size-1 || id.z >= size-1) {
+		return;
+	}
+	
+	// Extract 8 corners
+	const float4 corners[8] = {
+		Densities[index3d(id.x + 0, id.y + 0, id.z + 0)],
+		Densities[index3d(id.x + 1, id.y + 0, id.z + 0)],
+		Densities[index3d(id.x + 1, id.y + 0, id.z + 1)],
+		Densities[index3d(id.x + 0, id.y + 0, id.z + 1)],
+		Densities[index3d(id.x + 0, id.y + 1, id.z + 0)],
+		Densities[index3d(id.x + 1, id.y + 1, id.z + 0)],
+		Densities[index3d(id.x + 1, id.y + 1, id.z + 1)],
+		Densities[index3d(id.x + 0, id.y + 1, id.z + 1)],
+	};
+	
+	// Calculate triangulation index from surface samples
+	uint index = 0;
+	if (corners[0].w > surface) { index |= 0x01; }
+	if (corners[1].w > surface) { index |= 0x02; }
+	if (corners[2].w > surface) { index |= 0x04; }
+	if (corners[3].w > surface) { index |= 0x08; }
+	if (corners[4].w > surface) { index |= 0x10; }
+	if (corners[5].w > surface) { index |= 0x20; }
+	if (corners[6].w > surface) { index |= 0x40; }
+	if (corners[7].w > surface) { index |= 0x80; }
+	
+	// hopefully this becomes a nocopy
+	const int tris[16] = triangulation[index];
+	for (int i = 0; tris[i] >= 0; i += 3) {
+		const float4 a0 = corners[indexA[tris[i+0]]];
+		const float4 a1 = corners[indexA[tris[i+1]]];
+		const float4 a2 = corners[indexA[tris[i+2]]];
+		const float4 b0 = corners[indexB[tris[i+0]]];
+		const float4 b1 = corners[indexB[tris[i+1]]];
+		const float4 b2 = corners[indexB[tris[i+2]]];
+		
+		Triangle tri;
+		tri.a = lerp(a0.xyz, b0.xyz, (surface - a0.w) / (b0.w - a0.w));
+		tri.b = lerp(a1.xyz, b1.xyz, (surface - a1.w) / (b1.w - a1.w));
+		tri.c = lerp(a2.xyz, b2.xyz, (surface - a2.w) / (b2.w - a2.w));
+		Triangles.Append(tri);
+	}
+	
+}
